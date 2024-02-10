@@ -25,9 +25,9 @@ MENU = {
 }
 
 resources = {
-    "water": 300,
-    "milk": 200,
-    "coffee": 100,
+    "water": 0,
+    "milk": 0,
+    "coffee": 0,
     "money": 0
 }
 def show_report():
@@ -41,20 +41,22 @@ def client_order():
         if order =="off":
             machine_on = False
             break
-        if order=="report":
+        elif order=="report":
             print_report()
             continue
-        drink = MENU[order]
-        drink_ingredients = drink["ingredients"]
-        drink_cost = drink["cost"]
-        enough_resources = check_resources(drink_ingredients)
-        if enough_resources:
-            customer_money = insert_coins()
-            enough_money = check_money(customer_money,drink_cost)
-            if enough_money:
-                make_coffe(drink_ingredients)
-                print(f"Here is your {order}. Enjoy!")
+        else:
+            drink = MENU[order]
+            drink_ingredients = drink["ingredients"]
+            drink_cost = drink["cost"]
+            enough_resources = check_resources(drink_ingredients)
+            if enough_resources:
+                customer_money = insert_coins()
+                enough_money = check_money(customer_money,drink_cost)
+                if enough_money:
+                    make_coffe(drink_ingredients)
+                    print(f"Here is your {order}. Enjoy!")
 def insert_coins():
+    print("Please insert some coins!")
     quarters = int(input("Insert quarters"))
 
     dimes = int(input("Insert dimes"))
@@ -88,8 +90,8 @@ def check_money(customer_money,drink_cost):
         resources["money"] += drink_cost
         return True
 def make_coffe(drink_ingredients):
-    for  ingredient in drink_ingredients:
-        resources[ingredient]-= drink_ingredients[ingredient]
+    for ingredient in drink_ingredients:
+        resources[ingredient] -= drink_ingredients[ingredient]
 def print_report():
     for i in resources:
         print(f"{i} : {resources[i]}")
@@ -100,4 +102,4 @@ if __name__ == '__main__':
     print("Machine shutted down")
 
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
